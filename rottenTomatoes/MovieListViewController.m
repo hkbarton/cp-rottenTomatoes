@@ -40,6 +40,13 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
     [self refreshData];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Util
+
 - (void)refreshData {
     self.viewErrorOverlay.hidden = YES;
     [[RottenTomatoesService defaultService] getMovies:^(NSArray *data, NSError *err) {
@@ -51,8 +58,6 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
         [self.tableViewMovies reloadData];
     }];
 }
-
-#pragma mark - Util
 
 - (void)loadImage:(__weak UIImageView *)imageView withURL:(NSString *)url {
     NSURL *posterUrl = [NSURL URLWithString:url];
@@ -102,11 +107,6 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*
