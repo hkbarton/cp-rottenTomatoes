@@ -20,6 +20,7 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 @interface MovieListViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewMovies;
+@property (weak, nonatomic) IBOutlet UIView *viewErrorOverlay;
 @property (nonatomic, strong) NSArray *movieList;
 
 @end
@@ -31,14 +32,21 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Movies";
+    
     self.tableViewMovies.dataSource = self;
     self.tableViewMovies.delegate = self;
     [self.tableViewMovies registerNib:[UINib nibWithNibName:@"MovieTableViewCell" bundle:nil] forCellReuseIdentifier:TABLE_VIEW_CELL_ID];
+    
     [self refreshData];
 }
 
 - (void)refreshData {
+    self.viewErrorOverlay.hidden = YES;
     [[RottenTomatoesService defaultService] getMovies:^(NSArray *data, NSError *err) {
+        if (err != nil) {
+            self.viewErrorOverlay.hidden = NO;
+            return;
+        }
         self.movieList = data;
         [self.tableViewMovies reloadData];
     }];
@@ -51,17 +59,33 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
     NSURLRequest *posterRequest = [NSURLRequest requestWithURL:posterUrl cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:3.0f];
     [imageView setImageWithURLRequest:posterRequest placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         imageView.image = image;
+        // Only animate image fade in when result come from network
+        if (response != nil) {
+            imageView.alpha = 0;
+            [UIView animateWithDuration:0.7f animations:^{
+                imageView.alpha = 1.0f;
+            }];
+        }
     } failure:nil];
 }
 
 #pragma mark - Table View
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.movieList.count;
+// fix separator inset bug
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+        [cell setPreservesSuperviewLayoutMargins:NO];
+    }
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 130;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.movieList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

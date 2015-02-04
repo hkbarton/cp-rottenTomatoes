@@ -17,8 +17,14 @@ static RottenTomatoesService *_defaultService = nil;
 - (void) getMovieData:(NSString*) url withCallback:(void(^)(NSArray *data, NSError *err)) callback {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString: url]];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError){
+        NSArray *result = nil;
+        if (connectionError != nil) {
+            callback(result, connectionError);
+            return;
+        }
         NSDictionary *returnData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        callback(returnData[@"movies"], connectionError);
+        result = returnData[@"movies"];
+        callback(result, connectionError);
     }];
 }
 
