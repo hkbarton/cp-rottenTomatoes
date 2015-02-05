@@ -21,6 +21,10 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewMovies;
 @property (weak, nonatomic) IBOutlet UIView *viewErrorOverlay;
+@property (weak, nonatomic) IBOutlet UIButton *buttonShowList;
+@property (weak, nonatomic) IBOutlet UIButton *buttonShowGallery;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+
 @property (nonatomic, strong) NSArray *movieList;
 
 @end
@@ -29,6 +33,16 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 
 @synthesize movieList;
 
+- (IBAction)onButtonShowListClick:(id)sender {
+    [sender setSelected:YES];
+    [self.buttonShowGallery setSelected:NO];
+}
+
+- (IBAction)onButtonShowGalleryClick:(id)sender {
+    [sender setSelected:YES];
+    [self.buttonShowList setSelected:NO];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Movies";
@@ -36,6 +50,10 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
     self.tableViewMovies.dataSource = self;
     self.tableViewMovies.delegate = self;
     [self.tableViewMovies registerNib:[UINib nibWithNibName:@"MovieTableViewCell" bundle:nil] forCellReuseIdentifier:TABLE_VIEW_CELL_ID];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+    [self.tableViewMovies insertSubview:self.refreshControl atIndex:0];
     
     [self refreshData];
 }
@@ -56,6 +74,7 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
         }
         self.movieList = data;
         [self.tableViewMovies reloadData];
+        [self.refreshControl endRefreshing];
     }];
 }
 
