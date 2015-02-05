@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MovieCollectionViewCell">
+            <connections>
+                <outlet property="labelTitle" destination="XMO-Rc-ZC4" id="hO3-49-K2v"/>
+                <outlet property="posterView" destination="9Pp-d9-TWs" id="F6x-0n-xps"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="MovieCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="113" height="161"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="113" height="161"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Pp-d9-TWs">
+                        <rect key="frame" x="8" y="8" width="97" height="123"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMO-Rc-ZC4">
+                        <rect key="frame" x="8" y="133" width="97" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="RW7-Oe-1Sr"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="XMO-Rc-ZC4" firstAttribute="leading" secondItem="9Pp-d9-TWs" secondAttribute="leading" id="3qX-ij-nZ2"/>
+                <constraint firstItem="9Pp-d9-TWs" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="7Tw-yt-UdB"/>
+                <constraint firstItem="XMO-Rc-ZC4" firstAttribute="trailing" secondItem="9Pp-d9-TWs" secondAttribute="trailing" id="Ahc-Tm-GqQ"/>
+                <constraint firstAttribute="trailing" secondItem="9Pp-d9-TWs" secondAttribute="trailing" constant="8" id="EUd-mY-oU0"/>
+                <constraint firstItem="XMO-Rc-ZC4" firstAttribute="trailing" secondItem="gTV-IL-0wX" secondAttribute="trailingMargin" id="IXT-Cd-Zrh"/>
+                <constraint firstItem="XMO-Rc-ZC4" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leadingMargin" id="Jjg-3v-LBI"/>
+                <constraint firstAttribute="bottom" secondItem="XMO-Rc-ZC4" secondAttribute="bottom" constant="7" id="ag3-9f-ccH"/>
+                <constraint firstItem="XMO-Rc-ZC4" firstAttribute="top" secondItem="9Pp-d9-TWs" secondAttribute="bottom" constant="2" id="imQ-Iv-CCT"/>
+                <constraint firstItem="9Pp-d9-TWs" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="topMargin" id="rr5-JS-NIy"/>
+            </constraints>
+            <size key="customSize" width="113" height="161"/>
+            <point key="canvasLocation" x="339.5" y="328.5"/>
+        </collectionViewCell>
+    </objects>
+</document>

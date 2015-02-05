@@ -8,6 +8,8 @@
             <connections>
                 <outlet property="buttonShowGallery" destination="DRR-4A-09H" id="TGN-cg-07d"/>
                 <outlet property="buttonShowList" destination="3v4-Es-Z5w" id="dIM-ZV-6Oh"/>
+                <outlet property="collectionViewFlowLayout" destination="zDt-mT-dqe" id="zCk-Yp-glV"/>
+                <outlet property="collectionViewMovies" destination="zw0-vn-8WN" id="QEV-Ne-Ht2"/>
                 <outlet property="tableViewMovies" destination="s5O-RQ-W7K" id="PAS-r6-eTB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewErrorOverlay" destination="jJd-aB-5cN" id="tL7-aD-sOP"/>
@@ -24,6 +26,16 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" id="zw0-vn-8WN">
+                    <rect key="frame" x="0.0" y="40" width="320" height="534"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zDt-mT-dqe">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
                 <view contentMode="scaleToFill" id="W6T-TV-B3C">
                     <rect key="frame" x="0.0" y="64" width="320" height="40"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
