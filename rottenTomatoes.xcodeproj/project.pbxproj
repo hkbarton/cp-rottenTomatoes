@@ -18,8 +18,8 @@
 		076169211A809F8900C67B93 /* rottenTomatoesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 076169201A809F8900C67B93 /* rottenTomatoesTests.m */; };
 		0761692D1A80A3D800C67B93 /* MovieListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0761692B1A80A3D800C67B93 /* MovieListViewController.m */; };
 		0761692E1A80A3D800C67B93 /* MovieListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0761692C1A80A3D800C67B93 /* MovieListViewController.xib */; };
-		07B9D5741A83D650005B29D6 /* MovieCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B9D5721A83D650005B29D6 /* MovieCollectionViewCell.m */; };
-		07B9D5751A83D650005B29D6 /* MovieCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07B9D5731A83D650005B29D6 /* MovieCollectionViewCell.xib */; };
+		07C5A6E81A847C700096B0AA /* MovieCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C5A6E61A847C700096B0AA /* MovieCollectionViewCell.m */; };
+		07C5A6E91A847C700096B0AA /* MovieCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07C5A6E71A847C700096B0AA /* MovieCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,9 +51,9 @@
 		0761692A1A80A3D800C67B93 /* MovieListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieListViewController.h; sourceTree = "<group>"; };
 		0761692B1A80A3D800C67B93 /* MovieListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieListViewController.m; sourceTree = "<group>"; };
 		0761692C1A80A3D800C67B93 /* MovieListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MovieListViewController.xib; sourceTree = "<group>"; };
-		07B9D5711A83D650005B29D6 /* MovieCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieCollectionViewCell.h; sourceTree = "<group>"; };
-		07B9D5721A83D650005B29D6 /* MovieCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieCollectionViewCell.m; sourceTree = "<group>"; };
-		07B9D5731A83D650005B29D6 /* MovieCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MovieCollectionViewCell.xib; sourceTree = "<group>"; };
+		07C5A6E51A847C700096B0AA /* MovieCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieCollectionViewCell.h; sourceTree = "<group>"; };
+		07C5A6E61A847C700096B0AA /* MovieCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieCollectionViewCell.m; sourceTree = "<group>"; };
+		07C5A6E71A847C700096B0AA /* MovieCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MovieCollectionViewCell.xib; sourceTree = "<group>"; };
 		145C80A825906F7BA7AF4F7E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BA3677915C0578B4559411A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A53D27564F4020B99CB9C180 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -84,9 +84,9 @@
 				073A49F41A81DC1B00DF5935 /* MovieTableViewCell.h */,
 				073A49F51A81DC1B00DF5935 /* MovieTableViewCell.m */,
 				073A49F61A81DC1B00DF5935 /* MovieTableViewCell.xib */,
-				07B9D5711A83D650005B29D6 /* MovieCollectionViewCell.h */,
-				07B9D5721A83D650005B29D6 /* MovieCollectionViewCell.m */,
-				07B9D5731A83D650005B29D6 /* MovieCollectionViewCell.xib */,
+				07C5A6E51A847C700096B0AA /* MovieCollectionViewCell.h */,
+				07C5A6E61A847C700096B0AA /* MovieCollectionViewCell.m */,
+				07C5A6E71A847C700096B0AA /* MovieCollectionViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -270,7 +270,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07B9D5751A83D650005B29D6 /* MovieCollectionViewCell.xib in Resources */,
+				07C5A6E91A847C700096B0AA /* MovieCollectionViewCell.xib in Resources */,
 				0761692E1A80A3D800C67B93 /* MovieListViewController.xib in Resources */,
 				076169151A809F8900C67B93 /* LaunchScreen.xib in Resources */,
 				073A49F81A81DC1B00DF5935 /* MovieTableViewCell.xib in Resources */,
@@ -330,7 +330,7 @@
 				0761692D1A80A3D800C67B93 /* MovieListViewController.m in Sources */,
 				073A49F71A81DC1B00DF5935 /* MovieTableViewCell.m in Sources */,
 				076169071A809F8900C67B93 /* main.m in Sources */,
-				07B9D5741A83D650005B29D6 /* MovieCollectionViewCell.m in Sources */,
+				07C5A6E81A847C700096B0AA /* MovieCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

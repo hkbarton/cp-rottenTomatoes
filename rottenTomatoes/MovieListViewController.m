@@ -54,7 +54,6 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
     
     self.collectionViewMovies.dataSource = self;
     self.collectionViewMovies.delegate = self;
-    [self.collectionViewFlowLayout setItemSize:CGSizeMake(113, 161)];
     [self.collectionViewMovies registerNib:[UINib nibWithNibName:@"MovieCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:COLLECTION_VIEW_CELL_ID];
     self.collectionRefreshControl = [[UIRefreshControl alloc] init];
     [self.collectionRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
@@ -93,6 +92,11 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
     [[RottenTomatoesService defaultService] getMovies:^(NSArray *data, NSError *err) {
         if (err != nil) {
             self.viewErrorOverlay.hidden = NO;
+            if ([self.buttonShowList isSelected]) {
+                [self.tableRefreshControl endRefreshing];
+            } else if ([self.buttonShowGallery isSelected]) {
+                [self.collectionRefreshControl endRefreshing];
+            }
             return;
         }
         self.movieList = data;
