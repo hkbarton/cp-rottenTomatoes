@@ -10,6 +10,7 @@
                 <outlet property="buttonShowList" destination="3v4-Es-Z5w" id="dIM-ZV-6Oh"/>
                 <outlet property="collectionViewFlowLayout" destination="zDt-mT-dqe" id="zCk-Yp-glV"/>
                 <outlet property="collectionViewMovies" destination="zw0-vn-8WN" id="QEV-Ne-Ht2"/>
+                <outlet property="searchBar" destination="xhr-bg-6h3" id="876-fj-MGt"/>
                 <outlet property="tabItemDVD" destination="hKY-Ag-5gO" id="FNT-AD-l7G"/>
                 <outlet property="tabItemMovie" destination="sJX-S7-11f" id="NUY-6n-6cI"/>
                 <outlet property="tabSource" destination="N5x-ow-rez" id="4GQ-N2-MHK"/>

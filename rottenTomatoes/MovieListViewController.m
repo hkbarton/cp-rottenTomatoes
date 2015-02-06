@@ -20,7 +20,7 @@ NSString *const MOVIE_TITLE = @"title";
 NSString *const MOVIE_RATING = @"mpaa_rating";
 NSString *const MOVIE_SYNOPSIS = @"synopsis";
 
-@interface MovieListViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITabBarDelegate>
+@interface MovieListViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITabBarDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewMovies;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionViewMovies;
@@ -31,16 +31,16 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 @property (weak, nonatomic) IBOutlet UITabBar *tabSource;
 @property (weak, nonatomic) IBOutlet UITabBarItem *tabItemMovie;
 @property (weak, nonatomic) IBOutlet UITabBarItem *tabItemDVD;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
 @property (nonatomic, strong) UIRefreshControl *collectionRefreshControl;
 
 @property (nonatomic, strong) NSArray *movieList;
+@property (nonatomic, strong) NSArray *filtedMovieList;
 
 @end
 
 @implementation MovieListViewController
-
-@synthesize movieList;
 
 __weak UITabBarItem *_curSelectItem;
 
@@ -50,17 +50,20 @@ __weak UITabBarItem *_curSelectItem;
     self.title = @"Movies";
     [self.buttonShowList setSelected:YES];
     [self.buttonShowGallery setSelected:NO];
+
     self.tabSource.delegate = self;
     [self.tabSource setSelectedItem: self.tabItemMovie];
     _curSelectItem = self.tabItemMovie;
     
+    self.searchBar.delegate = self;
+
     self.tableViewMovies.dataSource = self;
     self.tableViewMovies.delegate = self;
     [self.tableViewMovies registerNib:[UINib nibWithNibName:@"MovieTableViewCell" bundle:nil] forCellReuseIdentifier:TABLE_VIEW_CELL_ID];
     self.tableRefreshControl = [[UIRefreshControl alloc] init];
     [self.tableRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
     [self.tableViewMovies insertSubview:self.tableRefreshControl atIndex:0];
-    
+
     self.collectionViewMovies.dataSource = self;
     self.collectionViewMovies.delegate = self;
     [self.collectionViewMovies registerNib:[UINib nibWithNibName:@"MovieCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:COLLECTION_VIEW_CELL_ID];
@@ -68,7 +71,7 @@ __weak UITabBarItem *_curSelectItem;
     [self.collectionRefreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
     [self.collectionViewMovies insertSubview:self.collectionRefreshControl atIndex:0];
     
-    [self refreshMoviesView];
+    [self refreshMoviesView:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,7 +84,7 @@ __weak UITabBarItem *_curSelectItem;
         [sender setSelected:YES];
         [self.buttonShowGallery setSelected:NO];
         // TODO update image
-        [self refreshMoviesView];
+        [self refreshMoviesView:NO];
     }
 }
 
@@ -90,11 +93,21 @@ __weak UITabBarItem *_curSelectItem;
         [sender setSelected:YES];
         [self.buttonShowList setSelected:NO];
         // TODO update image
-        [self refreshMoviesView];
+        [self refreshMoviesView:NO];
     }
 }
 
 #pragma mark - Util
+
+- (void)filterMovieBySearchText {
+    NSString *searchText = self.searchBar.text;
+    if (searchText.length == 0) {
+        self.filtedMovieList = [NSArray arrayWithArray:self.movieList];
+    } else {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.%@ contains[c] %@", MOVIE_TITLE, searchText];
+        self.filtedMovieList = [self.movieList filteredArrayUsingPredicate:predicate];
+    }
+}
 
 - (void)refreshData {
     self.viewErrorOverlay.hidden = YES;
@@ -111,6 +124,7 @@ __weak UITabBarItem *_curSelectItem;
             return;
         }
         self.movieList = data;
+        [self filterMovieBySearchText];
         if ([self.buttonShowList isSelected]) {
             [self.tableViewMovies reloadData];
             [self.tableRefreshControl endRefreshing];
@@ -127,18 +141,26 @@ __weak UITabBarItem *_curSelectItem;
     }
 }
 
--(void)refreshMoviesView {
-    [SVProgressHUD show];
+-(void)refreshMoviesView: (BOOL)shouldReloadData {
     if ([self.buttonShowList isSelected]) {
         self.tableViewMovies.hidden = NO;
-        [self.tableViewMovies scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+        if (shouldReloadData) {
+            [self.tableViewMovies scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+        }
+        [self.tableViewMovies reloadData];
         self.collectionViewMovies.hidden = YES;
     } else if ([self.buttonShowGallery isSelected]) {
         self.tableViewMovies.hidden = YES;
         self.collectionViewMovies.hidden = NO;
-        [self.collectionViewMovies scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+        if (shouldReloadData) {
+            [self.collectionViewMovies scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+        }
+        [self.collectionViewMovies reloadData];
     }
-    [self refreshData];
+    if (shouldReloadData) {
+        [SVProgressHUD show];
+        [self refreshData];
+    }
 }
 
 - (void)loadImage:(__weak UIImageView *)imageView withURL:(NSString *)url {
@@ -160,9 +182,36 @@ __weak UITabBarItem *_curSelectItem;
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     if (item != _curSelectItem) {
-        [self refreshMoviesView];
+        [self refreshMoviesView:YES];
     }
     _curSelectItem = item;
+}
+
+#pragma mark - Search Bar
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self filterMovieBySearchText];
+    [self refreshMoviesView:NO];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    searchBar.showsCancelButton = YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    searchBar.showsCancelButton = NO;
+    searchBar.text = @"";
+    [self filterMovieBySearchText];
+    [self refreshMoviesView:NO];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
 }
 
 #pragma mark - Table View
@@ -181,13 +230,13 @@ __weak UITabBarItem *_curSelectItem;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.movieList.count;
+    return self.filtedMovieList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MovieTableViewCell *view = [tableView dequeueReusableCellWithIdentifier:TABLE_VIEW_CELL_ID];
     
-    NSDictionary *movie = movieList[indexPath.row];
+    NSDictionary *movie = self.filtedMovieList[indexPath.row];
     [self loadImage:view.posterView withURL:[movie valueForKeyPath:MOVIE_POSTER]];
     view.labelTitle.text = [movie valueForKeyPath:MOVIE_TITLE];
     view.labelRating.text = [movie valueForKeyPath:MOVIE_RATING];
@@ -203,13 +252,13 @@ __weak UITabBarItem *_curSelectItem;
 #pragma mark - Collection View
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.movieList.count;
+    return self.filtedMovieList.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MovieCollectionViewCell *view = [collectionView dequeueReusableCellWithReuseIdentifier:COLLECTION_VIEW_CELL_ID forIndexPath:indexPath];
     
-    NSDictionary *movie = movieList[indexPath.row];
+    NSDictionary *movie = self.filtedMovieList[indexPath.row];
     [self loadImage:view.posterView withURL:[movie valueForKeyPath:MOVIE_POSTER]];
     view.labelTitle.text = [movie valueForKeyPath:MOVIE_TITLE];
     
