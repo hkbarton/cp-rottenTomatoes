@@ -11,6 +11,7 @@
 #import "MovieTableViewCell.h"
 #import "MovieCollectionViewCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "SVProgressHUD.h"
 
 NSString *const TABLE_VIEW_CELL_ID = @"MovieTableViewCell";
 NSString *const COLLECTION_VIEW_CELL_ID = @"MovieCollectionViewCell";
@@ -99,6 +100,7 @@ __weak UITabBarItem *_curSelectItem;
     self.viewErrorOverlay.hidden = YES;
     
     void (^callback)(NSArray *data, NSError *err) = ^(NSArray *data, NSError *err) {
+        [SVProgressHUD dismiss];
         if (err != nil) {
             self.viewErrorOverlay.hidden = NO;
             if ([self.buttonShowList isSelected]) {
@@ -126,6 +128,7 @@ __weak UITabBarItem *_curSelectItem;
 }
 
 -(void)refreshMoviesView {
+    [SVProgressHUD show];
     if ([self.buttonShowList isSelected]) {
         self.tableViewMovies.hidden = NO;
         [self.tableViewMovies scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
