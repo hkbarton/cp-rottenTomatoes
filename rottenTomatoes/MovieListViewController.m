@@ -19,7 +19,7 @@ NSString *const MOVIE_TITLE = @"title";
 NSString *const MOVIE_RATING = @"mpaa_rating";
 NSString *const MOVIE_SYNOPSIS = @"synopsis";
 
-@interface MovieListViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface MovieListViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITabBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewMovies;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionViewMovies;
@@ -27,6 +27,9 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 @property (weak, nonatomic) IBOutlet UIView *viewErrorOverlay;
 @property (weak, nonatomic) IBOutlet UIButton *buttonShowList;
 @property (weak, nonatomic) IBOutlet UIButton *buttonShowGallery;
+@property (weak, nonatomic) IBOutlet UITabBar *tabSource;
+@property (weak, nonatomic) IBOutlet UITabBarItem *tabItemMovie;
+@property (weak, nonatomic) IBOutlet UITabBarItem *tabItemDVD;
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
 @property (nonatomic, strong) UIRefreshControl *collectionRefreshControl;
 
@@ -38,12 +41,17 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 
 @synthesize movieList;
 
+__weak UITabBarItem *_curSelectItem;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = @"Movies";
     [self.buttonShowList setSelected:YES];
     [self.buttonShowGallery setSelected:NO];
+    self.tabSource.delegate = self;
+    [self.tabSource setSelectedItem: self.tabItemMovie];
+    _curSelectItem = self.tabItemMovie;
     
     self.tableViewMovies.dataSource = self;
     self.tableViewMovies.delegate = self;
@@ -89,7 +97,8 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 
 - (void)refreshData {
     self.viewErrorOverlay.hidden = YES;
-    [[RottenTomatoesService defaultService] getMovies:^(NSArray *data, NSError *err) {
+    
+    void (^callback)(NSArray *data, NSError *err) = ^(NSArray *data, NSError *err) {
         if (err != nil) {
             self.viewErrorOverlay.hidden = NO;
             if ([self.buttonShowList isSelected]) {
@@ -107,16 +116,24 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
             [self.collectionViewMovies reloadData];
             [self.collectionRefreshControl endRefreshing];
         }
-    }];
+    };
+    
+    if (self.tabSource.selectedItem == self.tabItemMovie) {
+        [[RottenTomatoesService defaultService] getMovies: callback];
+    } else if (self.tabSource.selectedItem == self.tabItemDVD) {
+        [[RottenTomatoesService defaultService] getDVDs: callback];
+    }
 }
 
 -(void)refreshMoviesView {
     if ([self.buttonShowList isSelected]) {
         self.tableViewMovies.hidden = NO;
+        [self.tableViewMovies scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
         self.collectionViewMovies.hidden = YES;
     } else if ([self.buttonShowGallery isSelected]) {
         self.tableViewMovies.hidden = YES;
         self.collectionViewMovies.hidden = NO;
+        [self.collectionViewMovies scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     }
     [self refreshData];
 }
@@ -134,6 +151,15 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
             }];
         }
     } failure:nil];
+}
+
+#pragma mark - Tab Bar
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    if (item != _curSelectItem) {
+        [self refreshMoviesView];
+    }
+    _curSelectItem = item;
 }
 
 #pragma mark - Table View

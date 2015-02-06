@@ -10,6 +10,9 @@
                 <outlet property="buttonShowList" destination="3v4-Es-Z5w" id="dIM-ZV-6Oh"/>
                 <outlet property="collectionViewFlowLayout" destination="zDt-mT-dqe" id="zCk-Yp-glV"/>
                 <outlet property="collectionViewMovies" destination="zw0-vn-8WN" id="QEV-Ne-Ht2"/>
+                <outlet property="tabItemDVD" destination="hKY-Ag-5gO" id="FNT-AD-l7G"/>
+                <outlet property="tabItemMovie" destination="sJX-S7-11f" id="NUY-6n-6cI"/>
+                <outlet property="tabSource" destination="N5x-ow-rez" id="4GQ-N2-MHK"/>
                 <outlet property="tableViewMovies" destination="s5O-RQ-W7K" id="PAS-r6-eTB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewErrorOverlay" destination="jJd-aB-5cN" id="tL7-aD-sOP"/>
@@ -21,13 +24,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" rowHeight="130" sectionHeaderHeight="22" sectionFooterHeight="22" id="s5O-RQ-W7K">
-                    <rect key="frame" x="0.0" y="40" width="320" height="528"/>
+                    <rect key="frame" x="0.0" y="40" width="320" height="479"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" id="zw0-vn-8WN">
-                    <rect key="frame" x="0.0" y="104" width="320" height="464"/>
+                    <rect key="frame" x="0.0" y="104" width="320" height="415"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="0.0" id="zDt-mT-dqe">
@@ -88,14 +91,25 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <tabBar contentMode="scaleToFill" id="N5x-ow-rez">
+                    <rect key="frame" x="0.0" y="519" width="320" height="49"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <items>
+                        <tabBarItem title="Movie" image="iconMovie" id="sJX-S7-11f"/>
+                        <tabBarItem title="DVD" image="iconDVD" id="hKY-Ag-5gO"/>
+                    </items>
+                </tabBar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="140" y="155"/>
         </view>
     </objects>
     <resources>
+        <image name="iconDVD" width="24" height="24"/>
         <image name="iconGallery" width="24" height="24"/>
         <image name="iconList" width="24" height="24"/>
+        <image name="iconMovie" width="32" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
