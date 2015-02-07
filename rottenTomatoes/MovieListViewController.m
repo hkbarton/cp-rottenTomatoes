@@ -12,6 +12,7 @@
 #import "MovieCollectionViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "SVProgressHUD.h"
+#import "MovieDetailViewController.h"
 
 NSString *const TABLE_VIEW_CELL_ID = @"MovieTableViewCell";
 NSString *const COLLECTION_VIEW_CELL_ID = @"MovieCollectionViewCell";
@@ -34,6 +35,7 @@ NSString *const MOVIE_SYNOPSIS = @"synopsis";
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
 @property (nonatomic, strong) UIRefreshControl *collectionRefreshControl;
+@property (nonatomic, strong) MovieDetailViewController *movieDetailViewController;
 
 @property (nonatomic, strong) NSArray *movieList;
 @property (nonatomic, strong) NSArray *filtedMovieList;
@@ -76,7 +78,7 @@ __weak UITabBarItem *_curSelectItem;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.movieDetailViewController = nil;
 }
 
 - (IBAction)onButtonShowListClick:(id)sender {
@@ -178,6 +180,15 @@ __weak UITabBarItem *_curSelectItem;
     } failure:nil];
 }
 
+- (void)showMovieDetail: (NSDictionary *)movie withPlaceHolderImage: (UIImage *) image{
+    if (self.movieDetailViewController == nil) {
+        self.movieDetailViewController = [[MovieDetailViewController alloc] initWithMovie:movie andPlaceHolderImage:image];
+    } else {
+        [self.movieDetailViewController setMovie:movie withPlaceHolderImage:image];
+    }
+    [self.navigationController pushViewController:self.movieDetailViewController animated:YES];
+}
+
 #pragma mark - Tab Bar
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
@@ -246,7 +257,10 @@ __weak UITabBarItem *_curSelectItem;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MovieTableViewCell *view = (MovieTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    UIImage *image = view.posterView.image;
+    [self showMovieDetail:self.filtedMovieList[indexPath.row] withPlaceHolderImage:image];
 }
 
 #pragma mark - Collection View
@@ -266,6 +280,10 @@ __weak UITabBarItem *_curSelectItem;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    MovieCollectionViewCell *view = (MovieCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    UIImage *image = view.posterView.image;
+    [self showMovieDetail:self.filtedMovieList[indexPath.row] withPlaceHolderImage:image];
 }
 
 @end
