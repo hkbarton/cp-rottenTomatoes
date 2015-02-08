@@ -50,8 +50,11 @@ __weak UITabBarItem *_curSelectItem;
     [super viewDidLoad];
     
     self.title = @"Movies";
+    [self.buttonShowList setImage:[UIImage imageNamed:@"iconList_highlight"] forState:UIControlStateSelected];
+    [self.buttonShowGallery setImage:[UIImage imageNamed:@"iconGallery_highlight"] forState:UIControlStateSelected];
     [self.buttonShowList setSelected:YES];
     [self.buttonShowGallery setSelected:NO];
+
 
     self.tabSource.delegate = self;
     [self.tabSource setSelectedItem: self.tabItemMovie];
@@ -85,7 +88,6 @@ __weak UITabBarItem *_curSelectItem;
     if (![sender isSelected]) {
         [sender setSelected:YES];
         [self.buttonShowGallery setSelected:NO];
-        // TODO update image
         [self refreshMoviesView:NO];
     }
 }
@@ -94,7 +96,6 @@ __weak UITabBarItem *_curSelectItem;
     if (![sender isSelected]) {
         [sender setSelected:YES];
         [self.buttonShowList setSelected:NO];
-        // TODO update image
         [self refreshMoviesView:NO];
     }
 }
