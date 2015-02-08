@@ -1,6 +1,6 @@
 ###KeHuang CodePath iOS Bootcamp Week1 - RottenTomatoes
 
-This is an iOS demo application for displaying the latest box office movies using the [RottenTomatoes API](http://www.rottentomatoes.com/). See the [RottenTomatoes Networking Tutorial](http://guides.thecodepath.com/android/RottenTomatoes-Networking-Tutorial) on our cliffnotes for a step-by-step tutorial.
+This is an iOS demo application for displaying the latest box office movies using the [RottenTomatoes API](http://www.rottentomatoes.com/).
 
 Time spent: 14 hours in total
 
