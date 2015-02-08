@@ -9,6 +9,7 @@
                 <outlet property="labelRating" destination="BdI-0r-zkU" id="VcU-P4-RCM"/>
                 <outlet property="labelScore" destination="KuI-a5-Zmq" id="Qj6-G7-Xrv"/>
                 <outlet property="labelTitle" destination="KjP-XQ-fYB" id="jEZ-o5-Och"/>
+                <outlet property="panGesture" destination="guO-fw-dz1" id="JIO-rG-TVW"/>
                 <outlet property="posterView" destination="hOb-6V-ART" id="wuY-QS-HRi"/>
                 <outlet property="scrollView" destination="G7Q-rP-vTd" id="RsZ-Qk-LeK"/>
                 <outlet property="textDetail" destination="hQ2-eT-nJY" id="IFb-Pq-HJL"/>
@@ -56,18 +57,27 @@
                             </subviews>
                         </view>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" selectable="NO" id="hQ2-eT-nJY">
-                            <rect key="frame" x="0.0" y="82" width="320" height="415"/>
+                            <rect key="frame" x="0.0" y="82.000000122266016" width="320" height="415"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="guO-fw-dz1" appends="YES" id="aW2-gH-9A6"/>
+                    </connections>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="140" y="155"/>
         </view>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="guO-fw-dz1">
+            <connections>
+                <action selector="handlePanGesture:" destination="-1" id="oDQ-1S-hL9"/>
+            </connections>
+        </panGestureRecognizer>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
